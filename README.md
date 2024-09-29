@@ -13,6 +13,8 @@
 1. Data Collection
 2. Data Analysis
 3. Model Selection and Training
+    - Linear Regression
+    - Z Score Analysis
 4. Evaluation
 4. Deployment 
 
