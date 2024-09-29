@@ -176,13 +176,13 @@ def Process_Segment(segmentName: str, segmentData: DataFrame) -> None:
 def Get_Fraud_Counts() -> dict[str, int]:
     data: DataFrame = read_json(r"Web\Backend\Rental_Data.json")
     return {
-        "Price": data[data["Price Fraud"] == True].shape[0],
-        "Time": data[data["Time Fraud"] == True].shape[0],
+        "Price": data[data["Price Fraud"] < 0.05].shape[0],
+        "Time": data[data["Time Fraud"] < 0.05].shape[0],
     }
 
-def Detect_Price_Fraud(listingData: DataFrame, confidence: float = 0.95) -> bool:
+def Detect_Price_Fraud(listingData: DataFrame) -> float:
     if listingData.dropna().shape[0] == 0:
-        return False
+        return 1
     
     buildingType: str = listingData["Building Type"].values[0]
 
@@ -200,14 +200,14 @@ def Detect_Price_Fraud(listingData: DataFrame, confidence: float = 0.95) -> bool
     zScore: float = ((expectedPrice - listingData["List Price"].values[0]) - mean) / stdev
     percentile: float = NormalDist().cdf(zScore)
 
-    return percentile < (1 - confidence) if expectedPrice < listingData["List Price"].values[0] else False
+    return percentile if expectedPrice < listingData["List Price"].values[0] else 1
 
-def Detect_Time_Fraud(listingData: DataFrame, confidence: float = 0.95) -> bool:
+def Detect_Time_Fraud(listingData: DataFrame) -> float:
     relevantData: DataFrame = listingData[[
         'Days on Market', 'Availability Date'
     ]].dropna()
     if relevantData.shape[0] == 0:
-        return False
+        return 1
 
     # Load data
     distribution: dict[str, float] = Load_Move_In(listingData["Building Type"].values[0])
@@ -227,4 +227,4 @@ def Detect_Time_Fraud(listingData: DataFrame, confidence: float = 0.95) -> bool:
     zScore: float = ((moveInWindow - mean) / stdev)
     percentile: float = NormalDist().cdf(zScore)
 
-    return percentile < (1 - confidence) if moveInWindow < mean else False
+    return percentile if moveInWindow < mean else 1

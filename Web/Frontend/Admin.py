@@ -30,7 +30,7 @@ def Detect_Fraud() -> None:
 
 def Debug_Card(data: dict) -> None:
     fraudMarker = ""
-    if data["Time Fraud"] or data["Price Fraud"]:
+    if data["Time Fraud"] +  data["Price Fraud"] <= 0.05:
         fraudMarker = "background-color: maroon; opacity: 0.5;"
 
     with ui.card().classes("w-full flex-col flex-nowrap justify-between").style(f"{fraudMarker}"):

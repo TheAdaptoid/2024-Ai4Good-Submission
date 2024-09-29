@@ -52,8 +52,8 @@ def Listing_Object(data: dict) -> ui.element:
                         # location
                         ui.label(f"{data['City']}, {data['State']} | {int(data['Zip Code'])}").classes("text-xs -mt-4")
 
-                    # Fruad Flag
-                    if data["Time Fraud"] or data["Price Fraud"]:
+                    # Fraud Flag
+                    if data["Time Fraud"] + data["Price Fraud"] <= 0.05:
                         ui.label()
                         with ui.icon(
                             name='flag',
