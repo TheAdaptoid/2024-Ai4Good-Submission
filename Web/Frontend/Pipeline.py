@@ -7,7 +7,7 @@ from pickle import dump, load
 from os import path, makedirs
 from json import dumps, loads
 from datetime import date, timedelta, datetime
-
+from Common import CONFIDENCE_INTERVAL
 MODEL_DIR: str = r"Web\Backend\Models"
 FEATURE_DIR: str = r"Web\Backend\Features"
 DISTRIBUTION_DIR: str = r"Web\Backend\Distributions"
@@ -175,9 +175,16 @@ def Process_Segment(segmentName: str, segmentData: DataFrame) -> None:
 
 def Get_Fraud_Counts() -> dict[str, int]:
     data: DataFrame = read_json(r"Web\Backend\Rental_Data.json")
+
+    counter = 0
+    for index, row in data.iterrows():
+        if row["Price Fraud"] < CONFIDENCE_INTERVAL and row["Time Fraud"] < CONFIDENCE_INTERVAL:
+            counter += 1
+
     return {
-        "Price": data[data["Price Fraud"] < 0.05].shape[0],
-        "Time": data[data["Time Fraud"] < 0.05].shape[0],
+        "Price": data[data["Price Fraud"] < CONFIDENCE_INTERVAL].shape[0],
+        "Time": data[data["Time Fraud"] < CONFIDENCE_INTERVAL].shape[0],
+        "Total": counter
     }
 
 def Detect_Price_Fraud(listingData: DataFrame) -> float:

@@ -2,6 +2,23 @@ from json import dumps, loads
 from pandas import DataFrame, read_json
 from random import choice
 
+def Report_Listing(listNumber: str) -> None:
+    with open(r"Web\Backend\Reports.json", "r") as file:
+        data: dict[str, int] = loads(file.read())
+
+    if listNumber in data:
+        data[listNumber] += 1
+    else:
+        data[listNumber] = 1
+
+    with open(r"Web\Backend\Reports.json", "w") as file:
+        file.write(dumps(data))
+
+def Get_Reports() -> dict[str, int]:
+    with open(r"Web\Backend\Reports.json", "r") as file:
+        return loads(file.read())
+
+
 def Load_Json(filepath: str) -> dict|list:
     with open(filepath, "r") as file:
         return loads(file.read())

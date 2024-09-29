@@ -1,6 +1,7 @@
 from nicegui import ui
 from Gateway import *
 from Pipeline import *
+from Common import CONFIDENCE_INTERVAL
 
 def Detect_Fraud() -> None:
     ui.notify(
@@ -28,9 +29,9 @@ def Detect_Fraud() -> None:
     # Reload page
     ui.navigate.reload()
 
-def Debug_Card(data: dict) -> None:
+def Debug_Card(data: dict, reportData: dict[str, int]) -> None:
     fraudMarker = ""
-    if data["Time Fraud"] +  data["Price Fraud"] <= 0.05:
+    if data["Time Fraud"] <= CONFIDENCE_INTERVAL and data["Price Fraud"] <= CONFIDENCE_INTERVAL:
         fraudMarker = "background-color: maroon; opacity: 0.5;"
 
     with ui.card().classes("w-full flex-col flex-nowrap justify-between").style(f"{fraudMarker}"):
@@ -42,8 +43,9 @@ def Debug_Card(data: dict) -> None:
 
         # Fraud
         with ui.row().classes("w-full flex-row flex-nowrap justify-end items-center"):
-            ui.label(f"Time Fraud: {data['Time Fraud']}")
-            ui.label(f"Price Fraud: {data['Price Fraud']}")
+            ui.label(f"Time Fraud: {round(data['Time Fraud'], 5)}")
+            ui.label(f"Price Fraud: {round(data['Price Fraud'], 5)}")
+            ui.label(f"Report Count: {reportData[data['List Number']] if data['List Number'] in reportData else 0}")
 
         # Location
         with ui.row().classes("w-full flex-row flex-nowrap justify-between items-center"):
@@ -56,8 +58,11 @@ def Debug_Card(data: dict) -> None:
             ui.label(f"{data['Latitude']}, {data['Longitude']}").classes("text-sm -mt-4")
 
 def Admin_Page() -> None:
+    reports: dict[str, int] = Get_Reports()
+
+
     for index, row in Get_Listings(sIndex=0, eIndex=100).iterrows():
-        Debug_Card(row.to_dict())
+        Debug_Card(row.to_dict(), reports)
 
     # Set the theme to dark mode
     ui.dark_mode(True)
@@ -80,6 +85,10 @@ def Admin_Page() -> None:
                 fraudCounts = Get_Fraud_Counts()
                 ui.label(f"{fraudCounts['Time']} Time Fraud Instances")
                 ui.label(f"{fraudCounts['Price']} Price Fraud Instances")
+                ui.label(f"{fraudCounts['Total']} Cross Validated Instances")
+
+                # Reports
+                ui.label(f"{len(list(reports.keys()))} User Reports").classes("text-2xl font-bold")
 
             ui.button(
                 text="Detect Fruadulent Listings", 
