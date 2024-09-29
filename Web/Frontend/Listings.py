@@ -24,7 +24,7 @@ def Listing_Details(data: dict) -> ui.element:
 
         # Price
         with ui.row().classes("w-full flex-row flex-nowrap justify-between items-center"):
-            ui.label(f"${data['List Price']} / month").classes("text-2xl")
+            ui.label(f"${data['List Price']:,} / month").classes("text-2xl")
             ui.button("Contact Agent", icon="mail", on_click=lambda: ui.notify("Not Implemented"))
 
         # Details
@@ -32,7 +32,7 @@ def Listing_Details(data: dict) -> ui.element:
             ui.label(f"{data['Bedrooms Total']} Bedrooms")
             ui.label(f"{data['Bathrooms Full']} Full Bathrooms")
             ui.label(f"{int(data['Bathrooms Half'])} Half Bathrooms")
-        ui.label(f"{data['Living Area']} Square Feet").classes("text-lg")
+        ui.label(f"{data['Living Area']:,} Square Feet").classes("text-lg")
 
         ui.space()
         
@@ -74,7 +74,7 @@ def Listing_Object(data: dict) -> ui.element:
                 ui.separator()
 
                 # details
-                ui.label(f"${data['List Price']} per month")
+                ui.label(f"${data['List Price']:,} per month")
 
                 with ui.row().classes("w-full flex-row flex-nowrap justify-between items-center -mt-5"):
                     ui.label(f"{data['Bedrooms Total']} Bedrooms | {data['Bathrooms Total']} Bathrooms")

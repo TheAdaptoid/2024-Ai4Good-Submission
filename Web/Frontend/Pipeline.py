@@ -89,7 +89,7 @@ def Load_Move_In(segment: str) -> dict[str, list[float] | float] | None:
 
 def Prepare_Data() -> dict[str, DataFrame]:
     # Load data
-    data: DataFrame = read_json(r"Web\Backend\Rental_Data.json")
+    data: DataFrame = read_json(r"Web\Backend\Rental_Data.json").sample(frac=0.8)
 
     # Create market segmentations
     segments: dict[str, DataFrame] = {

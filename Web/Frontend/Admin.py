@@ -4,12 +4,6 @@ from Pipeline import *
 from Common import CONFIDENCE_INTERVAL
 
 def Detect_Fraud() -> None:
-    ui.notify(
-        message="Identifying fraudulent listings...",
-        position="top",
-        type="ongoing"
-    )
-
     # Prepare data
     segments: dict[str, DataFrame] = Prepare_Data()
 
@@ -25,9 +19,6 @@ def Detect_Fraud() -> None:
 
     # Update listings
     Update_Listings(currentListings)
-
-    # Reload page
-    ui.navigate.reload()
 
 def Debug_Card(data: dict, reportData: dict[str, int]) -> None:
     fraudMarker = ""
