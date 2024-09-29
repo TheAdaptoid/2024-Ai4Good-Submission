@@ -1,5 +1,6 @@
 # User defined
 Data/
+Notebooks/Data_Fill.ipynb
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
