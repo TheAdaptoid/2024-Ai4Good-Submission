@@ -8,6 +8,7 @@ from os import path, makedirs
 from json import dumps, loads
 from datetime import date, timedelta, datetime
 from Common import CONFIDENCE_INTERVAL
+
 MODEL_DIR: str = r"Web\Backend\Models"
 FEATURE_DIR: str = r"Web\Backend\Features"
 DISTRIBUTION_DIR: str = r"Web\Backend\Distributions"
