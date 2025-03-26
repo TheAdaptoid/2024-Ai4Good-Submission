@@ -23,16 +23,16 @@ Using a linear regression model in combination with some standard statistical an
 
     - **Move In Date**: If the time between the listing's move in date and the listing's listing date was less than the mean of a 95% confidence interval for a given building type, the listing was considered fraudulent.
 
-    - **Fraud Detection Process Diagram**![Fraud Detection Process](Utils\Process.png)
+    - **Fraud Detection Process Diagram**![Fraud Detection Process](Utils/Process.png)
 
 
 ### Frontend
 
 - **UI Design**: The UI was made entirely using the [Nice-GUI](https://nicegui.io/documentation) python library. This library allowed me to quickly put together a ***nice*** and near fully functional webpage with out any knowledge or use of HTML, CSS, or JavaScript.
 
-    - **Listing Page**![Listing Page](Utils\Listings_Page.png)
+    - **Listing Page**![Listing Page](Utils/Listings_Page.png)
 
-    - **Admin Page**![Admin Page](Utils\Admin_Page.png)
+    - **Admin Page**![Admin Page](Utils/Admin_Page.png)
 
 - **Images**: The images for the listings were sourced from various stock photo websites.
 
